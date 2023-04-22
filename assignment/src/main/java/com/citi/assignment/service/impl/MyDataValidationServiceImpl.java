@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 public class MyDataValidationServiceImpl implements MyDataValidationService {
-    private static final String[] REGEX = {"^[a-zA-Z]*$"};
+    private static final String[] REGEX = {"^[a-zA-Z]+$"};
 
     @Autowired
     private MyDataService dataService;
@@ -24,7 +24,7 @@ public class MyDataValidationServiceImpl implements MyDataValidationService {
             if (dataService.getPersistedEntries().stream()
                     .anyMatch(x -> x.getValue().equalsIgnoreCase(input))) {
                 return true;
-            } else if (input.equalsIgnoreCase(StringUtils.reverse(input))){
+            } else if (input.equalsIgnoreCase(StringUtils.reverse(input))) {
                 CompletableFuture.runAsync(() -> dataService.persistValidInput(input));
                 return true;
             }

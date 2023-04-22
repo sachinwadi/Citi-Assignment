@@ -21,9 +21,6 @@ public class MyDataServiceImpl implements MyDataService {
     @Autowired
     private MyRepository myRepository;
 
-    /**
-     * @param input
-     */
     @CachePut(value = CACHE, key = "#input")
     public void persistValidInput(String input) {
         log.info("I am doing some long running task...");
@@ -36,9 +33,6 @@ public class MyDataServiceImpl implements MyDataService {
         myRepository.save(MyEntity.builder().value(input).build());
     }
 
-    /**
-     * @return
-     */
     @Cacheable(value = CACHE, cacheManager = CACHE_MANAGER)
     public List<MyEntity> getPersistedEntries() {
         log.info("Calling method getPersistedEntries...");

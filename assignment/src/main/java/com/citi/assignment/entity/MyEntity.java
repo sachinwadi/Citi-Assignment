@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "VALID_INPUT_STORE")
@@ -16,6 +19,6 @@ import javax.persistence.*;
 public class MyEntity {
 
     @Id
-    @Column(name="INPUT")
+    @Column(name = "INPUT")
     private String value;
 }

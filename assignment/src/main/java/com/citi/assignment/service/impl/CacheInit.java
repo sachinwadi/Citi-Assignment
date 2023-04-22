@@ -18,6 +18,7 @@ public class CacheInit implements ApplicationListener<ApplicationReadyEvent> {
 
     /**
      * This method will populate cache when application is ready
+     *
      * @param event
      */
     @Override

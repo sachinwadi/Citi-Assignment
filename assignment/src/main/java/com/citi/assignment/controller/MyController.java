@@ -15,7 +15,6 @@ public class MyController {
     private MyDataValidationService myDataValidationService;
 
     /**
-     *
      * @param userName
      * @param input
      * @return result validating input is palindrome or not
