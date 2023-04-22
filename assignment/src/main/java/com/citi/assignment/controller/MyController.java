@@ -1,6 +1,6 @@
 package com.citi.assignment.controller;
 
-import com.citi.assignment.service.MyDataValidationService;
+import com.citi.assignment.service.DataValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MyController {
 
     @Autowired
-    private MyDataValidationService myDataValidationService;
+    private DataValidationService dataValidationService;
 
     /**
      * @param userName
@@ -21,7 +21,7 @@ public class MyController {
      */
     @GetMapping("/validateuserinput")
     public ResponseEntity<String> validateInput(@RequestParam String userName, @RequestParam String input) {
-        boolean result = myDataValidationService.validateForPalindrome(input);
+        boolean result = dataValidationService.validateForPalindrome(input);
         String message = String.format("Input [%s] %s a Palindrome", input, result ? "IS" : "IS NOT");
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

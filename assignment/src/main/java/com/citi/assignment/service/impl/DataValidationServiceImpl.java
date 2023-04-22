@@ -1,22 +1,26 @@
 package com.citi.assignment.service.impl;
 
-import com.citi.assignment.service.MyDataService;
-import com.citi.assignment.service.MyDataValidationService;
+import com.citi.assignment.service.DataPersistenceService;
+import com.citi.assignment.service.DataValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
+import static com.citi.assignment.constant.Constants.DB_PERSISTENCE_SERVICE;
+
 @Service
 @Slf4j
-public class MyDataValidationServiceImpl implements MyDataValidationService {
+public class DataValidationServiceImpl implements DataValidationService {
     private static final String[] REGEX = {"^[a-zA-Z]+$"};
 
     @Autowired
-    private MyDataService dataService;
+    @Qualifier(DB_PERSISTENCE_SERVICE)
+    private DataPersistenceService dataService;
 
     @Override
     public boolean validateForPalindrome(String input) {

@@ -19,13 +19,13 @@ import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.verify;
 
 
-class MyDataServiceImplTest extends AbstractContextInitializr {
+class DatabasePersistenceServiceImplTest extends AbstractContextInitializr {
 
     @Autowired
     private MyRepository repository;
 
     @SpyBean
-    private MyDataServiceImpl dataService;
+    private DatabasePersistenceServiceImpl dataService;
 
     @Autowired
     private CacheManager cacheManager;

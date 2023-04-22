@@ -1,6 +1,6 @@
 package com.citi.assignment.service;
 
-public interface MyDataValidationService {
+public interface DataValidationService {
     /**
      * This service method will check if the given input is palindrome or not.
      * A palindrome is a word, number, phrase, or other sequence of characters which reads the

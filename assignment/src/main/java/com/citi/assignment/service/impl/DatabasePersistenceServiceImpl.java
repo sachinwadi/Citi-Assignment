@@ -2,7 +2,7 @@ package com.citi.assignment.service.impl;
 
 import com.citi.assignment.entity.MyEntity;
 import com.citi.assignment.repository.MyRepository;
-import com.citi.assignment.service.MyDataService;
+import com.citi.assignment.service.DataPersistenceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
@@ -11,12 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.citi.assignment.constant.Constants.CACHE;
-import static com.citi.assignment.constant.Constants.CACHE_MANAGER;
+import static com.citi.assignment.constant.Constants.*;
 
-@Service
+@Service(DB_PERSISTENCE_SERVICE)
 @Slf4j
-public class MyDataServiceImpl implements MyDataService {
+public class DatabasePersistenceServiceImpl implements DataPersistenceService {
 
     @Autowired
     private MyRepository myRepository;
