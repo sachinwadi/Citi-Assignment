@@ -25,7 +25,6 @@ class DataValidationServiceImplTest {
 
     @Test
     void shouldReturnTrueForPalindromeInput() {
-        when(dataService.getPersistedEntries()).thenReturn(List.of(new MyEntity("DID")));
         when(dataService.persistValidInput(eq("DID"))).thenReturn(List.of(new MyEntity("DID"))) ;
 
         boolean result = validationService.validateForPalindrome("MADAM");
