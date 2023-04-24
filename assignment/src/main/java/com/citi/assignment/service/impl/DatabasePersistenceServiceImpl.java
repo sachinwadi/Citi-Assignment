@@ -20,8 +20,14 @@ public class DatabasePersistenceServiceImpl implements DataPersistenceService {
     @Autowired
     private MyRepository myRepository;
 
-    @CachePut(value = CACHE, key = "#input")
-    public void persistValidInput(String input) {
+    @Cacheable(value = CACHE, key = "'allEntries'", cacheManager = CACHE_MANAGER)
+    public List<MyEntity> getPersistedEntries() {
+        log.info("Calling method getPersistedEntries...");
+        return myRepository.findAll();
+    }
+
+    @CachePut(value = CACHE, key = "'allEntries'")
+    public List<MyEntity> persistValidInput(String input) {
         log.info("I am doing some long running task...");
         try {
             Thread.sleep(5000);
@@ -30,20 +36,6 @@ public class DatabasePersistenceServiceImpl implements DataPersistenceService {
         }
         log.info("I am done...");
         myRepository.save(MyEntity.builder().value(input).build());
+        return myRepository.findAll(); //This call is required for refreshing cache
     }
-
-    @Cacheable(value = CACHE, cacheManager = CACHE_MANAGER)
-    public List<MyEntity> getPersistedEntries() {
-        log.info("Calling method getPersistedEntries...");
-        return myRepository.findAll();
-    }
-
-//    /**
-//     * @return
-//     */
-//    @Cacheable(value = CACHE)
-//    public MyEntity getPersistedEntry(String input) {
-//        log.info("Calling method getPersistedEntry...");
-//        return myRepository.findByValue(input).orElse(null);
-//    }
 }

@@ -11,7 +11,7 @@ public interface DataPersistenceService {
      *
      * @param input
      */
-    void persistValidInput(String input);
+    List<MyEntity> persistValidInput(String input);
 
     /**
      * @return list o palindrome entries previously stored in database

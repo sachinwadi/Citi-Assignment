@@ -21,7 +21,7 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
     private static final String DATASOURCE = "assignment/src/main/resources/db/FileStorage.txt";
 
     @CachePut(value = CACHE, key = "#input")
-    public void persistValidInput(String input) {
+    public List<MyEntity> persistValidInput(String input) {
         log.info("I am doing some long running task...");
         try {
             Thread.sleep(5000);
@@ -35,6 +35,14 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+
+        //This call is needed to refresh cache
+        try {
+            return readFromDatasource();
+        } catch (FileNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        return null;
 
     }
 
