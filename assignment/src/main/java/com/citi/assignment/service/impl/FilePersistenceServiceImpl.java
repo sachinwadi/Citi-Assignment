@@ -18,9 +18,7 @@ import static com.citi.assignment.constant.Constants.*;
 @Slf4j
 public class FilePersistenceServiceImpl implements DataPersistenceService {
 
-    private static final String DATASOURCE = "assignment/src/main/resources/db/FileStorage.txt";
-
-    @CachePut(value = CACHE, key = "#input")
+    @CachePut(value = CACHE, key = "'allEntries'")
     public List<MyEntity> persistValidInput(String input) {
         log.info("I am doing some long running task...");
         try {
@@ -31,7 +29,7 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
         log.info("I am done...");
 
         try {
-            writeToFile(input);
+            writeToDatasource(input);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -46,15 +44,7 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
 
     }
 
-    private void writeToFile(String input) throws IOException {
-        try (FileWriter fw = new FileWriter(DATASOURCE, true);
-             BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write(input);
-            bw.newLine();
-        }
-    }
-
-    @Cacheable(value = CACHE, cacheManager = CACHE_MANAGER)
+    @Cacheable(value = CACHE, key = "'allEntries'", cacheManager = CACHE_MANAGER)
     public List<MyEntity> getPersistedEntries() {
         log.info("Calling method getPersistedEntries...");
 
@@ -66,10 +56,24 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
         return null;
     }
 
+    private void writeToDatasource(String input) throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("db/FileStorage.txt").getFile());
+
+        try (FileWriter fw = new FileWriter(file, true);
+             BufferedWriter bw = new BufferedWriter(fw)) {
+            bw.write(input);
+            bw.newLine();
+        }
+    }
+
     private List<MyEntity> readFromDatasource() throws FileNotFoundException {
         List<MyEntity> entries = new ArrayList<>();
 
-        try (Scanner scanner = new Scanner(new File(DATASOURCE))) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("db/FileStorage.txt").getFile());
+
+        try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 entries.add(MyEntity.builder().value(scanner.nextLine()).build());
             }
@@ -77,13 +81,4 @@ public class FilePersistenceServiceImpl implements DataPersistenceService {
 
         return entries;
     }
-
-//    /**
-//     * @return
-//     */
-//    @Cacheable(value = CACHE)
-//    public MyEntity getPersistedEntry(String input) {
-//        log.info("Calling method getPersistedEntry...");
-//        return myRepository.findByValue(input).orElse(null);
-//    }
 }
